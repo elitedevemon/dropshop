@@ -1,0 +1,138 @@
+.dropdown-menu-content .list-inline-item {
+                display: block !important;
+                margin-bottom: 0 !important;
+                line-height: 25px;
+            }
+            .dropdown_nav:hover .dropdown-menu-content {
+                opacity: 1;
+                visibility: visible;
+            }
+            .main_nav{
+                    height: 50px;
+            }
+            .shop_nav{
+                height: 50px;
+            }
+            .shop_nav a{
+                color:#fff !important;
+                height:100%;
+            }
+            .dropdown-menu-content {
+                transition: all 0.3s ease;
+                margin-top: 0px;
+                width: 270px;
+                padding: 0 !important;
+            }
+           .dropdown-menu-content li {
+            border-bottom: 1px solid #cccccc8f;
+            border-left: 1px solid #cccccc8f;
+            margin: 0 !important;
+            position: relative;
+            }
+            .dropdown-menu-content li a {
+             color: #000 !important;
+            padding: 4.7px 15px !important;
+            text-decoration: none;
+            font-size: 15px;
+            display: flex !important;
+            align-items: center;
+            justify-content: space-between;
+           
+            }
+            
+            /*.dropdown-menu-content li:hover {*/
+            /*    background-color: #e0c12d;*/
+            /*}*/
+            .header_menu_links::before {
+                position: absolute;
+                content: '';
+                width: 0;
+                height: 4px;
+                background-color:#e0c12d;
+                left: 0;
+                top: 0;
+                -webkit-transition: all 0.3s linear;
+                transition: all 0.3s linear;
+                opacity: 0;
+            }
+            .menu_links:hover .header_menu_links::before {
+                width: 100%;
+                opacity: 1;
+            }
+            
+            .active .header_menu_links::before {
+                width: 100%;
+                opacity: 1;
+            }
+            
+            .header_menu_links::after {
+                position: absolute;
+                content: '';
+                width: 0;
+                height: 4px;
+                background-color: #EF1B27;
+                right: 0;
+                bottom: 0;
+                -webkit-transition: all 0.3s linear;
+                transition: all 0.3s linear;
+                opacity: 0;
+            }
+            .menu_links:hover .header_menu_links::after {
+                width: 100%;
+                opacity: 1;
+            }
+            .active .header_menu_links::after{
+                width: 100%;
+                opacity: 1;
+            }
+            .avater_img{
+                height:25px;
+            }
+            .contact-info{
+                line-height: 42px;
+            }
+            .sub_dropdown{
+                position: absolute;
+                right: -270px;
+                top: 0;
+                width: 270px;
+                background: #fff;
+                margin: 0;
+                padding: 0 !important;
+                display: none;
+                z-index: 1;
+            }
+              .sub_dropdown li{
+                   position: relative;
+              }
+              .dropdown-menu-content li:hover .sub_dropdown{
+                  display:block;
+              }
+            .sub__sub_dropdown{
+                position: absolute;
+                right: -100%;
+                top: 0;
+                width: 270px;
+                background: #1475bc;
+                margin: 0;
+                padding: 0 !important;
+                display: none;
+            }
+             .sub_dropdown li:hover .sub__sub_dropdown{
+                  display:block;
+             }
+             
+             .logo-bar-area{
+                 background: #fff;
+             }
+             .search-input-box {
+                position: relative;
+                width: 100%;
+                background: #fff;
+            }
+            .footer_menu a{
+                color:#000 !important;
+            }
+            #cart_items a{
+                color:#000 !important;
+            }
