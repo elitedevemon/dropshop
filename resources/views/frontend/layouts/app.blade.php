@@ -1,46 +1,46 @@
 <!DOCTYPE html>
 
 @php
-    $rtl = get_session_language()->rtl;
+  $rtl = get_session_language()->rtl;
 @endphp
 
 @if ($rtl == 1)
-    <html dir="rtl" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-@else
+  <html dir="rtl" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+  @else
     <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 @endif
 
 <head>
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="app-url" content="{{ getBaseURL() }}">
-    <meta name="file-base-url" content="{{ getFileBaseURL() }}">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="app-url" content="{{ getBaseURL() }}">
+  <meta name="file-base-url" content="{{ getFileBaseURL() }}">
 
-    <title>@yield('meta_title', get_setting('website_name') . ' | ' . get_setting('site_motto'))</title>
+  <title>@yield('meta_title', get_setting('website_name') . ' | ' . get_setting('site_motto'))</title>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="index, follow">
-    <meta name="description" content="@yield('meta_description', get_setting('meta_description'))" />
-    <meta name="keywords" content="@yield('meta_keywords', get_setting('meta_keywords'))">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="@yield('meta_description', get_setting('meta_description'))" />
+  <meta name="keywords" content="@yield('meta_keywords', get_setting('meta_keywords'))">
 
-    @yield('meta')
+  @yield('meta')
 
-    @if (!isset($detailedProduct) && !isset($customer_product) && !isset($shop) && !isset($page) && !isset($blog))
-        @php
-            $meta_image = uploaded_asset(get_setting('meta_image'));
-        @endphp
-        <!-- Schema.org markup for Google+ -->
-        <meta itemprop="name" content="{{ get_setting('meta_title') }}">
-        <meta itemprop="description" content="{{ get_setting('meta_description') }}">
-        <meta itemprop="image" content="{{ $meta_image }}">
+  @if (!isset($detailedProduct) && !isset($customer_product) && !isset($shop) && !isset($page) && !isset($blog))
+    @php
+      $meta_image = uploaded_asset(get_setting('meta_image'));
+    @endphp
+    <!-- Schema.org markup for Google+ -->
+    <meta itemprop="name" content="{{ get_setting('meta_title') }}">
+    <meta itemprop="description" content="{{ get_setting('meta_description') }}">
+    <meta itemprop="image" content="{{ $meta_image }}">
 
-        <!-- Twitter Card data -->
-        <meta name="twitter:card" content="product">
-        <meta name="twitter:site" content="@publisher_handle">
-        <meta name="twitter:title" content="{{ get_setting('meta_title') }}">
-        <meta name="twitter:description" content="{{ get_setting('meta_description') }}">
-        <meta name="twitter:creator" content="@author_handle">
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="product">
+    <meta name="twitter:site" content="@publisher_handle">
+    <meta name="twitter:title" content="{{ get_setting('meta_title') }}">
+    <meta name="twitter:description" content="{{ get_setting('meta_description') }}">
+    <meta name="twitter:creator" content="@author_handle">
         <meta name="twitter:image" content="{{ $meta_image }}">
 
         <!-- Open Graph data -->
@@ -245,7 +245,7 @@
     <!-- Floating Buttons -->
     @include('frontend.inc.floating_buttons')
 
-    @if (env("DEMO_MODE") == "On")
+    @if (env('DEMO_MODE') == 'On')
         <!-- demo nav -->
         @include('frontend.inc.demo_nav')
     @endif
@@ -296,9 +296,9 @@
         </div>
     @endif
 
-    @include('frontend.'.get_setting('homepage_select').'.partials.modal')
+    @include('frontend.' . get_setting('homepage_select') . '.partials.modal')
     
-    @include('frontend.'.get_setting('homepage_select').'.partials.account_delete_modal')
+    @include('frontend.' . get_setting('homepage_select') . '.partials.account_delete_modal')
 
     <div class="modal fade" id="addToCart">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-zoom product-modal" id="modal-size" role="document">
@@ -526,16 +526,18 @@
         }
 
         function addToWishList(id){
-            @if (Auth::check() && Auth::user()->user_type == 'customer')
-                $.post('{{ route('wishlists.store') }}', {_token: AIZ.data.csrf, id:id}, function(data){
-                    if(data != 0){
-                        $('#wishlist').html(data);
-                        AIZ.plugins.notify('success', "{{ translate('Item has been added to wishlist') }}");
-                    }
-                    else{
-                        AIZ.plugins.notify('warning', "{{ translate('Please login first') }}");
-                    }
-                });
+          
+            @if (Auth::check() && Auth::user()->user_type == 'seller')
+              $.post('{{ route('wishlists.store') }}', {_token: AIZ.data.csrf, id:id}, function(data){
+                  if(data != 0){
+                      $('#wishlist').html(data);
+                      AIZ.plugins.notify('success', "{{ translate('Item has been added to wishlist') }}");
+                  }
+                  else{
+                      AIZ.plugins.notify('warning', "{{ translate('Please login first') }}");
+                  }
+              });
+                
             @elseif(Auth::check() && Auth::user()->user_type != 'customer')
                 AIZ.plugins.notify('warning', "{{ translate('Please Login as a customer to add products to the WishList.') }}");
             @else
@@ -616,8 +618,8 @@
         }
 
         function addToCart(){
-            @if (Auth::check() && Auth::user()->user_type != 'customer')
-                AIZ.plugins.notify('warning', "{{ translate('Please Login as a customer to add products to the Cart.') }}");
+            @if (Auth::check() && Auth::user()->user_type != 'seller')
+                AIZ.plugins.notify('warning', "{{ translate('Please Login as a seller to add products to the Cart.') }}");
                 return false;
             @endif
 
@@ -645,8 +647,8 @@
         }
 
         function buyNow(){
-            @if (Auth::check() && Auth::user()->user_type != 'customer')
-                AIZ.plugins.notify('warning', "{{ translate('Please Login as a customer to add products to the Cart.') }}");
+            @if (Auth::check() && Auth::user()->user_type != 'seller')
+                AIZ.plugins.notify('warning', "{{ translate('Please Login as a seller to add products to the Cart.') }}");
                 return false;
             @endif
             
@@ -686,7 +688,7 @@
                 $('#bid_amount').attr('min', min_bid_amount);
                 $('#bid_for_product').modal('show');
             @elseif (Auth::check() && isAdmin())
-                AIZ.plugins.notify('warning', '{{ translate('Sorry, Only customers & Sellers can Bid.') }}');
+                AIZ.plugins.notify('warning', '{{ translate('Sorry, Only Sellers can Bid.') }}');
             @else
                 $('#login_modal').modal('show');
             @endif
@@ -805,7 +807,7 @@
         }
     </script>
 
-    @if (env("DEMO_MODE") == "On")
+    @if (env('DEMO_MODE') == 'On')
         <script>
             var demoNav = document.querySelector('.aiz-demo-nav');
             var menuBtn = document.querySelector('.aiz-demo-nav-toggler');
@@ -852,14 +854,12 @@
                     $('header').delay(800).removeClass('z-1').addClass('z-1020');
                 }
             }
-        </script>
-    @endif
+        </script> @endif
 
     @yield('script')
 
     @php
-        echo get_setting('footer_script');
-    @endphp
+echo get_setting('footer_script'); @endphp
 
 </body>
 </html>

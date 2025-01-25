@@ -18,6 +18,7 @@ use App\Models\SmsTemplate;
 use Auth;
 use Mail;
 use App\Mail\InvoiceEmailManager;
+use App\Models\CommissionHistory;
 use App\Utility\NotificationUtility;
 use CoreComponentRepository;
 use App\Utility\SmsUtility;
@@ -120,7 +121,7 @@ class OrderController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function create()
     {
@@ -130,8 +131,6 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -156,7 +155,7 @@ class OrderController extends Controller
             $shippingAddress['postal_code'] = $address->postal_code;
             $shippingAddress['phone']       = $address->phone;
             if ($address->latitude || $address->longitude) {
-                $shippingAddress['lat_lang'] = $address->latitude . ',' . $address->longitude;
+                $shippingAddress['lat_lang'] = "{$address->latitude},{$address->longitude}";
             }
         }
 
@@ -165,9 +164,9 @@ class OrderController extends Controller
         $combined_order->shipping_address = json_encode($shippingAddress);
         $combined_order->save();
 
-        $seller_products = array();
+        $seller_products = [];
         foreach ($carts as $cartItem) {
-            $product_ids = array();
+            $product_ids = [];
             $product = Product::find($cartItem['product_id']);
             if (isset($seller_products[$product->user_id])) {
                 $product_ids = $seller_products[$product->user_id];
@@ -273,7 +272,15 @@ class OrderController extends Controller
                         $affiliateController = new AffiliateController;
                         $affiliateController->processAffiliateStats($referred_by_user->id, 0, $order_detail->quantity, 0, 0);
                     }
-                }
+                };
+
+                $commission_history = new CommissionHistory();
+                $commission_history->order_id = $order->id;
+                $commission_history->seller_id = $order->user_id;
+                $commission_history->order_detail_id = $order_detail->id;
+                $commission_history->admin_commission = $product->commission;
+                $commission_history->seller_earning = $product->commission;
+                $commission_history->save();
             }
 
             $order->grand_total = $subtotal + $tax + $shipping;

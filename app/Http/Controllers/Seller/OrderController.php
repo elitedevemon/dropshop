@@ -26,7 +26,7 @@ class OrderController extends Controller
         $sort_search = null;
         $orders = DB::table('orders')
             ->orderBy('id', 'desc')
-            ->where('seller_id', Auth::user()->id)
+            ->where('user_id', Auth::user()->id)
             ->select('orders.id')
             ->distinct();
 

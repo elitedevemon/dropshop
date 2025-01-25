@@ -14,6 +14,9 @@ debugbar
 deliveryboy
 dont
 dopay
+endauth
+endguest
+endisset
 fakerphp
 fideloper
 flysystem
@@ -40,6 +43,8 @@ Nagad
 ngenius
 niklasravnsborg
 nunomaduro
+onchange
+onclick
 payhere
 Payhere
 payku
@@ -57,6 +62,7 @@ returnpolicy
 rmccue
 rozer
 sebacarrasco
+selectpicker
 sellerpolicy
 simplesoftwareio
 socialiter
@@ -66,5 +72,6 @@ Sslcommerz
 SSLCOMMERZ
 supportpolicy
 symfony
+ucfirst
 unicodeveloper
 Voguepay
