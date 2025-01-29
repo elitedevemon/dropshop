@@ -27,7 +27,7 @@
                         <span class="aiz-side-nav-text">{{ translate('Dashboard') }}</span>
                     </a>
                 </li>
-                <li class="aiz-side-nav-item">
+                {{-- <li class="aiz-side-nav-item">
                     <a href="#" class="aiz-side-nav-link">
                         <i class="las la-shopping-cart aiz-side-nav-icon"></i>
                         <span class="aiz-side-nav-text">{{ translate('Products') }}</span>
@@ -61,7 +61,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
                 <li class="aiz-side-nav-item">
                     <a href="{{ route('seller.uploaded-files.index') }}"
                         class="aiz-side-nav-link {{ areActiveRoutes(['seller.uploaded-files.index', 'seller.uploads.create']) }}">
@@ -185,6 +185,15 @@
                         class="aiz-side-nav-link {{ areActiveRoutes(['seller.shop.index']) }}">
                         <i class="las la-cog aiz-side-nav-icon"></i>
                         <span class="aiz-side-nav-text">{{ translate('Shop Setting') }}</span>
+                    </a>
+                </li>
+
+
+                <li class="aiz-side-nav-item">
+                    <a href="{{ route('seller.profile.index') }}"
+                        class="aiz-side-nav-link {{ areActiveRoutes(['seller.profile.index']) }}">
+                        <i class="las la-cog aiz-side-nav-icon"></i>
+                        <span class="aiz-side-nav-text">{{ translate('Payment Setting') }}</span>
                     </a>
                 </li>
 
